@@ -4,7 +4,14 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "../prisma";
 
 export const nextAuthOptions: NextAuthOptions = {
-    debug: false,
+    secret: process.env.NEXTAUTH_SECRET,
+    debug: process.env.NODE_ENV === "development",
+    session: {
+        strategy: "database",
+    },
+    pages: {
+        signIn: "/login",
+    },
     providers: [
         GithubProvider({
             clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -14,7 +21,19 @@ export const nextAuthOptions: NextAuthOptions = {
 
     adapter: PrismaAdapter(prisma),
     callbacks: {
-        session: async({session , user}) =>{
+        redirect: async ({ url, baseUrl }) => {
+            if (url.startsWith("/")) {
+                return `${baseUrl}${url}`;
+            }
+            if (url.startsWith(baseUrl)) {
+                return url;
+            }
+            return baseUrl;
+        },
+        session: async ({ session, user }) => {
+            if (!user) {
+                return session;
+            }
             return {
                 ...session,
                 user: {
@@ -22,7 +41,6 @@ export const nextAuthOptions: NextAuthOptions = {
                     id: user.id,
                 },
             };
-
-        }
-    }
-}
+        },
+    },
+};
