@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const PurchaseSuccess = () => {
+  const [bookUrl, setBookUrl] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   // console.log(sessionId);
@@ -13,6 +14,7 @@ const PurchaseSuccess = () => {
 
       if(sessionId){
         try {
+          console.log("sessionId: ", sessionId);
           const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout/success`, {
             method: "POST",
             headers: {
@@ -24,7 +26,7 @@ const PurchaseSuccess = () => {
             throw new Error("Failed to fetch purchase");
           }
           const data = await response.json();
-          console.log(data);
+          setBookUrl(data.purchase.bookId);
         }catch(err: any){
           console.log(err.message);
         }
@@ -44,7 +46,7 @@ const PurchaseSuccess = () => {
         </p>
         <div className="mt-6 text-center">
           <Link
-            href={`/`}
+            href={`/book/${bookUrl}`}
             className="text-indigo-600 hover:text-indigo-800 transition duration-300"
           >
             購入した記事を読む

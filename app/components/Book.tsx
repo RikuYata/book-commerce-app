@@ -14,7 +14,7 @@ type BookProps = {
 const Book = ({ book }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
   const {data: session} = useSession();
-  const user = session?.user;
+  const user: any = session?.user;
   const router = useRouter();
 
 
@@ -28,6 +28,9 @@ const Book = ({ book }: BookProps) => {
         body: JSON.stringify({
           title: book.title,
           price: book.price,
+          userId: user?.id,
+          bookId: book.id,
+
         }),
       });
       if (!response.ok) {
