@@ -1,4 +1,5 @@
 import {createClient} from "microcms-js-sdk";
+import { BookType } from "@/app/types/types";
 
 export const client = createClient({
     serviceDomain: process.env.MICROCMS_SERVICE_DOMAIN as string,
@@ -6,7 +7,7 @@ export const client = createClient({
 })
 
 export const getAllBooks = async () =>{
-    const allBooks = await client.getList({
+    const allBooks = await client.getList<BookType>({
         endpoint: "commerce",
     })
 
