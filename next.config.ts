@@ -12,8 +12,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.microcms-assets.io",
       },
-    ]
-  }
+    ],
+  },
+  // useEffect()が二度実行される問題を解決するために設定
+  reactStrictMode: false,
 };
 
 export default nextConfig;
