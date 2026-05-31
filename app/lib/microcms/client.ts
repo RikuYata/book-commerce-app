@@ -1,4 +1,4 @@
-import {createClient} from "microcms-js-sdk";
+import { createClient } from "microcms-js-sdk";
 import { BookType } from "@/app/types/types";
 
 export const client = createClient({
@@ -6,10 +6,18 @@ export const client = createClient({
     apiKey: process.env.MICROCMS_API_KEY as string,
 })
 
-export const getAllBooks = async () =>{
+export const getAllBooks = async () => {
     const allBooks = await client.getList<BookType>({
         endpoint: "commerce",
     })
 
     return allBooks;
+}
+
+export const getDetailBook = async (contentId: string) => {
+    const detailBook = await client.getListDetail<BookType>({
+        endpoint: "commerce",
+        contentId,
+    });
+    return detailBook;
 }
