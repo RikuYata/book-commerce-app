@@ -30,7 +30,7 @@ export async function POST(request: Request, response: Response) {
             });
             return NextResponse.json({ purchase: purchase });
         } else {
-            return NextResponse.json({ message: "Purchase already exists" });
+            return NextResponse.json({ purchase: existingPurchase });
         }
     } catch (err: any) {
         return NextResponse.json({ message: err.message });
