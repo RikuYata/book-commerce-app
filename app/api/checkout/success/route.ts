@@ -5,7 +5,7 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
 
     const { sessionId } = await request.json();
     try {
