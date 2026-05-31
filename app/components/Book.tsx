@@ -21,7 +21,7 @@ const Book = ({ book, isPurchased }: BookProps) => {
 
   const startCheckout = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout`, {
+      const response = await fetch("/api/checkout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,18 +31,17 @@ const Book = ({ book, isPurchased }: BookProps) => {
           price: book.price,
           userId: user?.id,
           bookId: book.id,
-
         }),
       });
-      if (!response.ok) {
-        throw new Error("Failed to checkout");
-      }
       const data = await response.json();
-      if (data) {
-        router.push(data.url as string);
+      if (!response.ok || !data.url) {
+        throw new Error(data.message ?? "Failed to checkout");
       }
+      window.location.href = data.url;
     } catch (err: any) {
-      console.log(err.message);
+      console.error(err.message);
+      alert("決済の開始に失敗しました。もう一度お試しください。");
+      setShowModal(false);
     }
   }
   const handleCancel = () => {

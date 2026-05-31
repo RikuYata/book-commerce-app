@@ -9,25 +9,25 @@ const PurchaseSuccess = () => {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   // console.log(sessionId);
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
 
-      if(sessionId){
+      if (sessionId) {
         try {
           console.log("sessionId: ", sessionId);
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/checkout/success`, {
+          const response = await fetch("/api/checkout/success", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ sessionId: sessionId }),
           });
-          if(!response.ok){
+          if (!response.ok) {
             throw new Error("Failed to fetch purchase");
           }
           const data = await response.json();
           setBookUrl(data.purchase.bookId);
-        }catch(err: any){
+        } catch (err: any) {
           console.log(err.message);
         }
       }
