@@ -11,7 +11,7 @@ export default async function ProfilePage() {
     const session = await getServerSession(nextAuthOptions);
     const user: User | null = session?.user as User | null;
 
-    let purchasesDetailBooks: Promise<BookType>[] = [];
+    let purchasesDetailBooks: BookType[] = [];
     if (user) {
         const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
