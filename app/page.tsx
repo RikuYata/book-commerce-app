@@ -9,7 +9,7 @@ import { nextAuthOptions } from "./lib/next-auth/options";
 
 
 export default async function Home() {
-  const { contents } = await getAllBooks();
+  const { contents } = await getAllBooks(); // ISR
 
   const session = await getServerSession(nextAuthOptions);
   const user: User | null = session?.user as User | null;
@@ -35,7 +35,11 @@ export default async function Home() {
           Book Commerce
         </h2>
         {contents.map((book: BookType) => (
-          <Book key={book.id} book={book} isPurchased={purchaseBookIds.includes(book.id as string)} />
+          <Book
+            key={book.id}
+            book={book}
+            isPurchased={purchaseBookIds.includes(book.id as string)}
+            user={user ?? null} />
         ))}
       </main>
     </>

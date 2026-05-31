@@ -1,21 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
-import { BookType } from "@/app/types/types";
-import { useSession } from "next-auth/react";
+import { BookType, User } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 
 type BookProps = {
   book: BookType;
   isPurchased: boolean;
+  user: User | null;
 }
 // eslint-disable-next-line react/display-name
-const Book = ({ book, isPurchased }: BookProps) => {
+const Book = ({ book, isPurchased, user }: BookProps) => {
   const [showModal, setShowModal] = useState(false);
-  const { data: session } = useSession();
-  const user: any = session?.user;
   const router = useRouter();
 
 
