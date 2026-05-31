@@ -25,7 +25,6 @@ export default async function ProfilePage() {
         purchasesDetailBooks = await Promise.all(purchases.map(async (purchase: PurchaseType) => {
             return getDetailBook(purchase.bookId);
         }));
-        purchasesDetailBooks = await Promise.all(purchasesDetailBooks);
     }
 
     return (
@@ -48,7 +47,7 @@ export default async function ProfilePage() {
 
             <span className="font-medium text-lg mb-4 mt-4 block">購入した記事</span>
             <div className="flex items-center gap-6">
-                {purchasesDetailBooks.map((purchaseDetailBook: Promise<BookType>) => (
+                {purchasesDetailBooks.map((purchaseDetailBook: BookType) => (
                     <PurchaseDetailBook key={purchaseDetailBook.id} purchaseDetailBook={purchaseDetailBook} />
                 ))}
             </div>
